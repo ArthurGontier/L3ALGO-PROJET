@@ -13,13 +13,21 @@ public class QuadTree {
 	// Nous ça sera 10x10;
 	
 	
-	public QuadTree(double minX,double minY, double maxX, double maxY){
-		// Largeur de la surface initiale 
-		double L = maxX - minX;
-		// Hauteur de la surface initiale 
-		double H = maxY - minY;
-		// C'est un point interne donc il ne possède que des fils; pas de point.
-		this.racine = new Noeud(minX,minY,L,H,null);
+	public QuadTree(ArrayList<Point> Pts,ArrayList<Polygone> ensT){
+		this.racine = new Noeud(Pts,ensT);
+	}
+	
+	public void ConstructionQT(Noeud N,int t,ArrayList<Polygone> ensT){
+		//si le noeud intersecte t triangles : on met les triangles dans la feuille
+
+		int cpt = 0;
+		//parcourt des triangle pour voir combien intersectent le Noeud
+		for(int i = 0; i<ensT.size();i++){
+			if(Geom.clipping(N.getCarre(), ensT.get(i)).size() == 0){
+				cpt++;
+			}
+		}
+		//sinon on créer 4 fils et on appelle la construction récurcivement
 	}
 	
 	public Noeud getRacine(){
@@ -27,4 +35,6 @@ public class QuadTree {
 	}
 	
 	
+	
 }
+
