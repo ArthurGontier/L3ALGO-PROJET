@@ -20,7 +20,8 @@ public class golfMain extends JPanel {
 		// Ligne 
 		ArrayList<Polygone> terrainNonTriangulé = new ArrayList<Polygone>();
 
-		//lecture du t
+		//LECTURE DE DONNEE
+		/*
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Veuillez saisir un t" + "\n" 
@@ -28,9 +29,10 @@ public class golfMain extends JPanel {
 		int t = Integer.parseInt(sc.nextLine());	
 		System.out.println("Vous avez choisi : " + t + " triangles par feuilles." );
 		
+		*/
 		
-		
-		//lecture du fichier
+		//LECTURE DE FICHIER
+		/*
 		//File f = new File("DescriptionFIgureGolf2.txt");
 
 		File f = new File("DescriptionFIgureGolf2TrianglesTest.txt");
@@ -67,11 +69,12 @@ public class golfMain extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 		//pgmTest.testPosiTri();
 		
 		
 		
-		
+		/*
 		ArrayList<Polygone> terrainTriangulé = new ArrayList<Polygone>();
 		terrainTriangulé = Geom.TriangulationTerrain(terrainNonTriangulé);
 		
@@ -95,6 +98,26 @@ public class golfMain extends JPanel {
 		QuadTree Terrain = new QuadTree(BornesTerrain, terrainTriangulé);
 		QuadTree.ConstructionQT(Terrain.getRacine(),t,terrainTriangulé,"RAC");
 		//pgmTest.testQT(Terrain);
+		
+		
+		*/
+		
+		// Fonction déplacement.
+		// On prend un point de départ;
+		// On donne un point d'arrivée - Théorique 
+		// La fonction nous retourne un point qui à partir du point de départ et du point théorique a subit l'influence du vent;
+		
+		// Test Basique
+		// Départ à (0,0)
+		// Arrivée à (10,10)
+		
+		Point Dep = new Point (0,0);
+		Point Arr = new Point (10,10);
+		
+		Deplacement.trajecBall(Dep,Arr);
+		
+		
+		
 		
 		
 	}
