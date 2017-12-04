@@ -5,23 +5,38 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.awt.*;
+import javax.swing.*;
 
-public class golfMain {
+
+public class golfMain extends JPanel {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		
-		// Création des points manuelle;
 		// Ligne 
+		ArrayList<Polygone> terrainNonTriangulé = new ArrayList<Polygone>();
 
+		//lecture du t
+		Scanner sc = new Scanner(System.in);
 
+		System.out.println("Veuillez saisir un t" + "\n" 
+				+ "(i.e. le nombre max de triangles dans une feuille du quadtree :");
+		int t = Integer.parseInt(sc.nextLine());	
+		System.out.println("Vous avez choisi : " + t + " triangles par feuilles." );
+		
+		
+		
 		//lecture du fichier
-		File f = new File("DescriptionFIgureGolf2.txt");
+		//File f = new File("DescriptionFIgureGolf2.txt");
 
+		File f = new File("DescriptionFIgureGolf2TrianglesTest.txt");
+
+		
 		try {
-			ArrayList<Polygone> terrainNonTriangulé = new ArrayList<Polygone>();
 			BufferedReader br = new BufferedReader(new FileReader(f));
 			String line = br.readLine();
 			//la première ligne nous donne le nombre de molynomes
@@ -37,19 +52,58 @@ public class golfMain {
 					Point p = new Point(x,y);
 					A.add(p);
 				}
-				Polygone poly = new Polygone(A);poly.polyAff();
+				
+				char couleur = P[P.length-1].charAt(0);
+				Polygone poly = new Polygone(A,couleur);
+				//poly.polyAff();
 				terrainNonTriangulé.add(poly);
 			}
-			/*while ((line = br.readLine()) != null){//affichage brut test
-				System.out.println(line);
-			}*/
+			//// Le tracé regroupe toutes les infos et est sité dans les dernières lignes 
+			// > l1 : le nombre de tracés 
+			// > l2 et + : description d'un tracé :(surface k=1),(surface k=2),(surface k=3),(surface green),(pt de départ),(pt d'arrivee),(par)
 			br.close();		
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//pgmTest.testPosiTri();
+		
+		
+		
+		
+		ArrayList<Polygone> terrainTriangulé = new ArrayList<Polygone>();
+		terrainTriangulé = Geom.TriangulationTerrain(terrainNonTriangulé);
+		
+		
+		Point BorneSO = new Point(0,0);
+		Point BorneSE = new Point(10,0);
+		Point BorneNE = new Point(10,10);
+		Point BorneNO = new Point(0,10);  
+		
+		
+		
+		
+		ArrayList<Point> BornesTerrain = new ArrayList();
+		BornesTerrain.add(BorneSO);
+		BornesTerrain.add(BorneSE);
+		BornesTerrain.add(BorneNE);
+		BornesTerrain.add(BorneNO);
+		 	
+		
+		
+		QuadTree Terrain = new QuadTree(BornesTerrain, terrainTriangulé);
+		QuadTree.ConstructionQT(Terrain.getRacine(),t,terrainTriangulé,"RAC");
+		//pgmTest.testQT(Terrain);
+		
 		
 	}
+	
+	
+	
+	
+
+	
+	
 
 }

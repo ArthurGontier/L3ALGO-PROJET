@@ -13,22 +13,36 @@ public class Noeud {
 	private Noeud NE;
 	private Noeud SO;
 	private Noeud SE;
-
-	Polygone carre;
+	private boolean feuille;
+	private Polygone carre;
 	
-	ArrayList<Polygone> EnsTriangle = new ArrayList<Polygone>();
+	private ArrayList<Polygone> EnsTriangle = new ArrayList<Polygone>();
 	
 	// Constructeur de noeud : 
 	
 	public Noeud (ArrayList<Point> ensP,ArrayList<Polygone> EnsT){
-		this.carre = new Polygone(ensP);
+		this.carre = new Polygone(ensP,'W'); // W correspond à la couleur neutre (WHITE)
 		this.EnsTriangle = EnsT;
+		this.feuille = false;
+	}
+
+	public boolean estFeuille() {
+		return feuille;
+	}
+	
+	public void setFeuille(ArrayList<Polygone> Triangles) {
+		EnsTriangle = Triangles;
+		feuille = true;
+	}
+	
+	public ArrayList<Polygone> getEnsTri(){
+		return EnsTriangle;
 	}
 
 	public Polygone getCarre(){
 		return this.carre;
 	}
-	
+		
 	// les subdivisions : dans l'ordre de traitement.
 	// # NO 
 	public Noeud getNO(){

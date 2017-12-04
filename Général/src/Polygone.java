@@ -2,9 +2,11 @@ import java.util.ArrayList;
 
 public class Polygone {
 	private ArrayList<Point> polyg;
+	private char couleur;
 	
-	public Polygone(ArrayList<Point> sesSommets){
+	public Polygone(ArrayList<Point> sesSommets, char color){
 		polyg = sesSommets;
+		couleur = color;
 	}
 	
 	public static void ajout(ArrayList<Point> sommets, Point P){
@@ -17,10 +19,11 @@ public class Polygone {
 		}
 	}
 	public void polyAff(){
-		System.out.println("Nb de sommets " + polyg.size());
+		System.out.println("Nb de sommets " + polyg.size() + " - Couleur " + couleur);
 		for(int i = 0; i < polyg.size(); i++){
 			polyg.get(i).affiPointSyso();
 		}
+		
 	}
 	public int taille() {
 		return polyg.size();
@@ -32,6 +35,13 @@ public class Polygone {
 	public boolean estPoly() {
 		return (polyg.size() >= 3);
 	}
+	
+	public char getCouleur() {
+		return couleur;
+	}
+	
+	
+	 
 	
 	
 
