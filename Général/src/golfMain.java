@@ -74,7 +74,7 @@ public class golfMain extends JPanel {
 		
 		
 		
-		/*
+		
 		ArrayList<Polygone> terrainTriangulé = new ArrayList<Polygone>();
 		terrainTriangulé = Geom.TriangulationTerrain(terrainNonTriangulé);
 		
@@ -93,14 +93,14 @@ public class golfMain extends JPanel {
 		BornesTerrain.add(BorneNE);
 		BornesTerrain.add(BorneNO);
 		 	
-		
+		int t = 9;
 		
 		QuadTree Terrain = new QuadTree(BornesTerrain, terrainTriangulé);
 		QuadTree.ConstructionQT(Terrain.getRacine(),t,terrainTriangulé,"RAC");
 		//pgmTest.testQT(Terrain);
 		
 		
-		*/
+		
 		
 		// Fonction déplacement.
 		// On prend un point de départ;
@@ -114,7 +114,10 @@ public class golfMain extends JPanel {
 		Point Dep = new Point (0,0);
 		Point Arr = new Point (10,10);
 		
-		Deplacement.trajecBall(Dep,Arr);
+		Deplacement.CalculPointAtterrissageBalle(Dep,Arr);
+		
+		
+		Point Atteri = Deplacement.CalculPointDepartBalle(Terrain,Dep, Arr);
 		
 		
 		

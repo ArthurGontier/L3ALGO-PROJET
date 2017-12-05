@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Deplacement {
 
-	public static void trajecBall(Point A, Point B) {
+	public static void CalculPointAtterrissageBalle(Point A, Point B) {
 		// Cette méthode prend deux points en entrée et retourne un point en sortie 
 		// Ce point est initialement calculé théoriquement
 		// PUIS, on lui affecte des valeurs choisie aléatoirement pour simuler l'effet du vent sur la trajectoire théorique de la balle
@@ -53,11 +53,36 @@ public class Deplacement {
 		}*/
 		int k = (int) (Math.random()*(T.length));
 		return T[k];
-		
-		
-	
 	}
 	
-	
-
+	public static Point CalculPointDepartBalle(QuadTree T,Point depart, Point atterri){//les conditions de la tape depuis le sable et de la tape depuis le green a moin d'un mètre doivent êtrent gérés au lancé
+		Point res = new Point(1000,1000);
+		if(atterri.getX() < T.getRacine().getCarre().getEns().get(0).getX()
+			||atterri.getX() > T.getRacine().getCarre().getEns().get(1).getX()
+			||atterri.getY() < T.getRacine().getCarre().getEns().get(0).getY()
+			||atterri.getY() > T.getRacine().getCarre().getEns().get(3).getY()){//cas en dehors des limites
+			res = depart;
+		}
+		else{
+			Noeud feuille = T.RecherchePointQT(T.getRacine(),atterri);
+			Polygone triangle = QuadTree.RecherhePointTriangle(feuille,atterri); 
+			if(triangle.getCouleur() == 'S'){//cas tombé dans les sapins (hors jeu)
+				res = depart;
+			}
+			else if(triangle.getCouleur() == 'B'){//cas tombé dans l'eau
+				Point P1 = Geom.segIntersection(depart, atterri, triangle.getEns().get(0), triangle.getEns().get(1));
+				Point P2 = Geom.segIntersection(depart, atterri, triangle.getEns().get(1), triangle.getEns().get(2));
+				Point P3 = Geom.segIntersection(depart, atterri, triangle.getEns().get(2), triangle.getEns().get(0));
+				if(P1.getX()*P1.getX()+P1.getY()*P1.getY() > P2.getX()*P2.getX()+P2.getY()*P2.getY()){
+					P1 = P2;
+				}
+				else if(P1.getX()*P1.getX()+P1.getY()*P1.getY() > P3.getX()*P3.getX()+P3.getY()*P3.getY()){
+					P1 = P3;
+				}
+				Point ptrecursif = new Point(-(P1.getX() - depart.getX())/100000, -(P1.getY() - depart.getY())/100000);
+				res = CalculPointDepartBalle(T,depart, ptrecursif);
+			}
+		}
+		return res;
+	}
 }
